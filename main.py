@@ -2,8 +2,42 @@ import tkinter as tk
 from tkinter import *
 from tkinter import messagebox
 import users
-
+import transactions
 login_attempt = 0;
+
+
+def start_payment_window():
+    def start_payment():
+        check = transactions.is_unusual_payment(ccnumber.get(),amount.get(),country.get())
+        if check == True:
+            messagebox.showerror("Fraud Detected")
+            payment_win.destroy()
+        else:
+            transactions.add_transaction_detail(ccnumber.get(), amount.get(), country.get())
+            messagebox.showinfo("Success","Transaction Completed")
+            payment_win.destroy()
+
+    payment_win = tk.Tk()
+    payment_win.title("Online Credit Card Payment ")
+    payment_win.geometry("350x400+750+300")
+
+    Label(payment_win, text="Online Transaction").grid(row=0, column=4)
+    Label(payment_win, text="Credit Card Number: ").grid(row=1,column=3)
+    Label(payment_win, text="Amount: ").grid(row=2,column=3)
+    Label(payment_win, text="Country: ").grid(row=3,column=3)
+
+    ccnumber = Entry(payment_win)
+    amount = Entry(payment_win)
+    country = Entry(payment_win)
+
+    ccnumber.grid(row=1,column=4)
+    amount.grid(row=2,column=4)
+    country.grid(row=3,column=4)
+
+    Button(payment_win, text="Pay", command=start_payment).grid(row=5, column=3)
+    Button(payment_win, text="Cancle", command=payment_win.destroy).grid(row=5, column=4)
+
+    mainloop()
 
 def start_login():
 
@@ -19,8 +53,10 @@ def start_login():
 
             elif login_attempt==3:
                 #fraud detected.. 3 login attempts done
-                messagebox.showerror("Fraud Detected: Multiple Login attempts")
+                messagebox.showerror("","Fraud Detected: Multiple Login attempts")
                 login_win.destroy()
+            else:
+                messagebox.showerror("","Wrong Username or password")
 
 
 
@@ -51,21 +87,7 @@ def start_user_reg():
 
     def register_user():
         users.add_new_user(name.get(),ccnumber.get(), mno.get(), email.get(), country.get(), username.get(), password.get())
-
-        #valid_pass = validation()
-        #if valid_pass == True:
-            #msg = add_new_member(member_types_array[v.get()], mno.get(), email.get(),fn.upper())
-            #if member added Successfully
-            #if msg == 1:
-            #    messagebox.showinfo("Successful","Member added Successfully")
-            #    reg_win.destroy()
-            #    print("Member" + fn +" Added Successful !!!")
-            #else:
-            #    messagebox.showinfo('Member Already Exist',msg)
-            #    reg_win.destroy()
-        #else:
-            #pop some error ;; pop valid_pass
-            #messagebox.showinfo('Form Validation Error', valid_pass)
+        reg_win.destroy()
 
 
     Label(reg_win, text="Credit Card User Registration").grid(row=0,column=4)
@@ -100,4 +122,18 @@ def start_user_reg():
     mainloop()
 
 
-start_login()
+
+# driver Program
+
+main_win = tk.Tk()
+main_win.title("Credit Card Transaction Fraud Detection System")
+main_win.geometry("600x600")
+
+
+l = Label(main_win, font=('arial',15), relief = "groove", text="Credit Card Services")
+l.grid(row=1, column=3)
+Button(main_win, text="Register", command=start_user_reg).grid(row=4, column=2)
+Button(main_win, text="Login", command=start_login).grid(row=5, column=2)
+Button(main_win, text="Exit", command=exit).grid(row=6, column=2)
+
+mainloop()

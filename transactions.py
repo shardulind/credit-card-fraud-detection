@@ -39,6 +39,9 @@ def is_unusual_payment(ccnumber, amount, country):
                 row_count +=1
                 sum = sum + int(row[1])
 
+        if row_count == 0:
+            return False
+
         average_payment = sum/row_count
 
         print(average_payment)
@@ -51,4 +54,4 @@ def is_unusual_payment(ccnumber, amount, country):
         else:
             return False
 
-print(is_unusual_payment('6969','6000','INDIA'))
+#print(is_unusual_payment('6969','6000','INDIA'))

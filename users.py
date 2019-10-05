@@ -32,13 +32,14 @@ def user_login(username,password):
     csvreader.__next__()
 
     for user in csvreader:
+        print(user)
         if username == user[5]:
             if password == user[6]:
                 return True
             else:
                 return False
-        else:
-            return False
+
+    return False
 
 
 
