@@ -1,6 +1,7 @@
 import csv
 filename = "users.csv"
 
+
 def read_all_users():
     fields = []
     rows = []
@@ -21,6 +22,24 @@ def read_all_users():
 
     print(rows)
     return rows
+
+
+
+
+def user_login(username,password):
+    csvfile = open(filename, 'r')
+    csvreader = csv.reader(csvfile)
+    csvreader.__next__()
+
+    for user in csvreader:
+        if username == user[5]:
+            if password == user[6]:
+                return True
+            else:
+                return False
+        else:
+            return False
+
 
 
 

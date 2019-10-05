@@ -3,13 +3,25 @@ from tkinter import *
 from tkinter import messagebox
 import users
 
+login_attempt = 0;
 
 def start_login():
 
-    login_attempt=0
     def login():
-        login_attempt = login_attempt + 1
-        #check = user.user_login()
+            global login_attempt
+            login_attempt +=1
+            check = users.user_login(username.get(), password.get())
+            if check == True:
+                # logged in transit to next Window
+                login_attempt=0
+                login_win.destroy()
+                start_payment_window()
+
+            elif login_attempt==3:
+                #fraud detected.. 3 login attempts done
+                messagebox.showerror("Fraud Detected: Multiple Login attempts")
+                login_win.destroy()
+
 
 
     login_win = tk.Tk()
@@ -88,4 +100,4 @@ def start_user_reg():
     mainloop()
 
 
-start_user_reg()
+start_login()
