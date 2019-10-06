@@ -25,14 +25,19 @@ def read_all_users():
 
 
 
-
+#login function
 def user_login(username,password):
-    csvfile = open(filename, 'r')
+    csvfile = open(filename, 'r')   #reading csv file
     csvreader = csv.reader(csvfile)
     csvreader.__next__()
 
+    #reading users file line by line
     for user in csvreader:
         print(user)
+
+        #users[5] is stored username
+        #users[5] is password
+        #if entered username exists in users.csv
         if username == user[5]:
             if password == user[6]:
                 return True
@@ -43,10 +48,10 @@ def user_login(username,password):
 
 
 
-
+#function to register a new user
 def add_new_user(name,ccnumber, mno, email, country, username, password):
 
-#copies earlier stored data
+#copies earlier stored data in users.csv file
     temp = open(filename, 'r')
     csvreader = csv.reader(temp)
     fields=csvreader.__next__()
@@ -59,7 +64,11 @@ def add_new_user(name,ccnumber, mno, email, country, username, password):
     print(all_users)
     temp.close()
 
-#opens again csvfile in write mode... Note: writing anything clears every thing on it.. it doesnt append directly
+#opens again csvfile in write mode...
+#Note: writing anything clears every thing on it.. it doesnt append directly
+#thus reading all data in all_users variable
+
+#now opening users.csv file in write mode
     csvfile = open(filename, 'w')
     new_user = [name,ccnumber,mno,email,country,username,password]
 
